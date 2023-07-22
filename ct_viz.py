@@ -125,12 +125,24 @@ if st.session_state.CONNECTED:
             st.write("No studies found for the selected options.")
             st.stop()
 
-    # Slider for selecting year and month
+    # Slider for selecting year
     st.sidebar.subheader('Start Year of CT')
-    years = filtered_df['StartDate'].dt.year.unique()
-    selected_year_range = st.sidebar.slider('Select Year Range', min_value=int(min(years)), max_value=int(max(years)), value=(int(min(years)), int(max(years))), key='slider_year')
+    with st.sidebar.form('ct-year'):
+        years = filtered_df['StartDate'].dt.year.unique()
+        selected_year_ranges = st.slider('Select Year Range', min_value=int(min(years)), max_value=int(max(years)), value=(int(min(years)), int(max(years))), key='slider_year')
 
+        # Add a submit button to the form
+        submit_button = st.form_submit_button("Submit")
 
+        # After the form is submitted, check if the submit button is clicked
+        if submit_button:
+            # Assign the selected tuples to selected_year_range
+            selected_year_range = selected_year_ranges
+        else:
+            # If the form is not submitted, assign a default value to selected_year_range
+            selected_year_range = (int(min(years)), int(max(years)))
+
+    
     # Filter the DataFrame based on the selected dates
     filtered_df = filtered_df[(filtered_df['StartDate'].dt.year >= selected_year_range[0]) & (filtered_df['StartDate'].dt.year <= selected_year_range[1])]
     # filtered_df['StartDate'] = filtered_df['StartDate'].dt.strftime('%Y-%m')
