@@ -157,7 +157,7 @@ if st.session_state.CONNECTED:
 
     #Select the Phase for pie chart
     options = filtered_df_pie['Phase_str'].unique().tolist()
-    selected_options = st.sidebar.multiselect('Which app do you want?',options)
+    selected_options = st.sidebar.multiselect('Which phase you want?',options)
 
 
 
